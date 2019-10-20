@@ -42,7 +42,9 @@ class CoalPainter extends CustomPainter {
           ))
       ..layout()
       ..paint(
-          canvas, new Offset(tp.width / 2, delta + side / 2 - tp.height / 2));
+          canvas,
+          new Offset(
+              (size.width - tp.width) / 2, delta + side / 2 - tp.height / 2));
 
     var paint = Paint()
       ..color = Colors.grey
@@ -50,6 +52,7 @@ class CoalPainter extends CustomPainter {
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
 
+    // 外边框
     // canvas.drawRect(Offset(0, 0) & Size(size.width, size.height), paint);
 
     paint.color = Colors.green;

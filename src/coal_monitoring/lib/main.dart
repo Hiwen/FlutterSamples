@@ -5,25 +5,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'translation.dart';
 import 'locale_util.dart';
 
-// 多语言支持参考： https://www.jianshu.com/p/e05dafc100ca
+// 澶氳瑷�鏀寔鍙傝�冿細 https://www.jianshu.com/p/e05dafc100ca
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MaterialApp(
-  //     title: 'Flutter Demo',
-  //     theme: ThemeData(
-  //       primarySwatch: Colors.blue,
-  //     ),
-  //     home: MyHomePage(title: 'Flutter Demo Home Page'),
-  //   );
-  // }
-
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'My Application',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -33,16 +21,15 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: localeUtil.supportedLocales(),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      locale: const Locale('zh', 'cn'),
+      home: MyHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+  MyHomePage({Key key}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -80,14 +67,28 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(Translations.of(context).text("title")),
-        ),
-        body: Center(child: _buildGrid()));
+        body: NestedScrollView(
+            headerSliverBuilder: _sliverBuilder,
+            body: Center(
+              child: Center(child: _buildGrid()),
+            )));
+  }
+
+  List<Widget> _sliverBuilder(BuildContext context, bool innerBoxIsScrolled) {
+    return <Widget>[
+      SliverAppBar(
+        title: Text(Translations.of(context).text("title")),
+        centerTitle: true, 
+        backgroundColor: Colors.blue,
+        floating: true, 
+        pinned: false, 
+      )
+    ];
   }
 
   Widget _buildGrid() => GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount:
+          MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 4,
       padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
       mainAxisSpacing: 10,
       shrinkWrap: true,
@@ -113,7 +114,6 @@ class _MyHomePageState extends State<MyHomePage>
                 math.pi;
         if (_controller.isCompleted) {
           _arcs[i] = math.pi + math.pi * (_random.nextInt(100) - 50) / 100.0;
-          //_arcs[i] = arcEnd;
         }
 
         _values[i] = 30 + _random.nextInt(10) - 5.0;

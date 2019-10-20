@@ -23,7 +23,7 @@ class LocaleUtil {
 
   LocaleUtil._internal();
 
-  /// 获取当前系统语言
+  /// 鑾峰彇褰撳墠绯荤粺璇█
   String getLanguageCode() {
     if(languageCode == null) {
       return "en";
