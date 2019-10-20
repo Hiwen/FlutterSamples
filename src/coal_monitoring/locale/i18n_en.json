@@ -1,1 +1,5 @@
-{ "hello" : "Hello~" }
+{ 
+    "hello" : "Hello~",
+    "title" : "coal monitor system",
+    "prefix": "C"
+}

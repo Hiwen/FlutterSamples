@@ -26,7 +26,7 @@ class CoalPainter extends CustomPainter {
         style: TextStyle(
           color: Colors.black,
           fontFamily: 'Consolas',
-          fontSize: 28.0 * 1,
+          fontSize: 14.0 * 1,
         ),
       )
       ..layout()

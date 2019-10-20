@@ -3,21 +3,36 @@ import 'widgets/CoalPainter.dart';
 import 'dart:math' as math;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'translation.dart';
-import 'application.dart';
+import 'locale_util.dart';
 
 // 多语言支持参考： https://www.jianshu.com/p/e05dafc100ca
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     title: 'Flutter Demo',
+  //     theme: ThemeData(
+  //       primarySwatch: Colors.blue,
+  //     ),
+  //     home: MyHomePage(title: 'Flutter Demo Home Page'),
+  //   );
+  // }
 
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return new MaterialApp(
+      title: 'My Application',
+      theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: [
+        const TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: localeUtil.supportedLocales(),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -53,9 +68,8 @@ class _MyHomePageState extends State<MyHomePage>
             setState(() {});
           });
 
-    _controller.forward();    
+    _controller.forward();
   }
-
 
   @override
   void dispose() {
@@ -67,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(Translations.of(context).text("title")),
         ),
         body: Center(child: _buildGrid()));
   }
@@ -94,8 +108,9 @@ class _MyHomePageState extends State<MyHomePage>
 
     var ress = List.generate(count, (i) {
       if (!_played) {
-      arcEnd = math.sin(Tween(begin: 0.0, end: math.pi).evaluate(_controller)) *
-          math.pi;
+        arcEnd =
+            math.sin(Tween(begin: 0.0, end: math.pi).evaluate(_controller)) *
+                math.pi;
         if (_controller.isCompleted) {
           _arcs[i] = math.pi + math.pi * (_random.nextInt(100) - 50) / 100.0;
           //_arcs[i] = arcEnd;
@@ -108,6 +123,8 @@ class _MyHomePageState extends State<MyHomePage>
             : math.sqrt(_controller.value) * _arcs[i];
       }
 
+      var prifix = Translations.of(context).text("prefix");
+
       var idx = i + 1;
       return Container(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -115,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage>
               painter: CoalPainter(
             arcStart,
             arcEnd,
-            'C$idx',
+            '$prifix$idx',
             _values[i],
           )));
     });
