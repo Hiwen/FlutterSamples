@@ -8,8 +8,9 @@ class CoalPainter extends CustomPainter {
   final double _value;
   final double _paintWidth;
   final String _name;
+  final double _devicePixelRatio;
 
-  CoalPainter(this._arcStart, this._arcSweep,
+  CoalPainter(this._arcStart, this._arcSweep,this._devicePixelRatio,
       [this._name = 'coal', this._value = 30, this._paintWidth = 4.0]);
 
   @override
@@ -26,7 +27,7 @@ class CoalPainter extends CustomPainter {
         style: TextStyle(
           color: Colors.black,
           fontFamily: 'Consolas',
-          fontSize: 14.0 * 1,
+          fontSize: 5.0 * _devicePixelRatio,
         ),
       )
       ..layout()
@@ -38,7 +39,7 @@ class CoalPainter extends CustomPainter {
           style: TextStyle(
             color: Colors.blue,
             fontFamily: 'Consolas',
-            fontSize: 28.0 * 1,
+            fontSize: 10.0 * _devicePixelRatio,
           ))
       ..layout()
       ..paint(

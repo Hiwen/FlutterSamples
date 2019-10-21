@@ -66,11 +66,15 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    var temp = MediaQuery.of(context);
+    int crossAxisCount = temp.size.width ~/ 150;
     return Scaffold(
         body: NestedScrollView(
             headerSliverBuilder: _sliverBuilder,
             body: Center(
-              child: Center(child: _buildGrid()),
+              child: Center(
+                  child: _buildGrid(
+                      context, temp.devicePixelRatio, crossAxisCount)),
             )));
   }
 
@@ -78,26 +82,28 @@ class _MyHomePageState extends State<MyHomePage>
     return <Widget>[
       SliverAppBar(
         title: Text(Translations.of(context).text("title")),
-        centerTitle: true, 
+        centerTitle: true,
         backgroundColor: Colors.blue,
-        floating: true, 
-        pinned: false, 
+        floating: true,
+        pinned: false,
       )
     ];
   }
 
-  Widget _buildGrid() => GridView.count(
-      crossAxisCount:
-          MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 4,
-      padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-      mainAxisSpacing: 10,
-      shrinkWrap: true,
-      crossAxisSpacing: 10,
-      children: _buildGridTileList(20));
+  Widget _buildGrid(
+          BuildContext context, double devicePixelRatio, int crossAxisCount) =>
+      GridView.count(
+          crossAxisCount: crossAxisCount,
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+          mainAxisSpacing: 10,
+          shrinkWrap: true,
+          crossAxisSpacing: 10,
+          children: _buildGridTileList(context, 20, devicePixelRatio));
 
   var _random = math.Random(5);
 
-  List<Container> _buildGridTileList(int count) {
+  List<Container> _buildGridTileList(
+      BuildContext context, int count, double devicePixelRatio) {
     double arcStart = -math.pi * 0.5, arcEnd = math.pi * 1.5;
     if (!_controller.isCompleted) {
       arcStart = _played
@@ -123,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage>
             : math.sqrt(_controller.value) * _arcs[i];
       }
 
-      var prifix = Translations.of(context).text("prefix");
+      var prefix = Translations.of(context).text("prefix");
 
       var idx = i + 1;
       return Container(
@@ -132,7 +138,8 @@ class _MyHomePageState extends State<MyHomePage>
               painter: CoalPainter(
             arcStart,
             arcEnd,
-            '$prifix$idx',
+            devicePixelRatio,
+            '$prefix$idx',
             _values[i],
           )));
     });
