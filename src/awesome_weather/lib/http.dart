@@ -6,10 +6,10 @@ import 'dart:io';
  */
 class httpManager {
 //  三天预报
-  var forecast_url = "https://free-api.heweather.com/s6/weather/forecast?parameters";
+  var forecast_url = "https://free-api.heweather.com/s6/weather/forecast?location=wuhan&key=f7f45241497049abb268159da2c8cd57";
   //实况天气
   var new_weather_url =
-      "https://free-api.heweather.com/s6/weather/now?parameters";
+      "https://free-api.heweather.com/s6/weather/now?location=wuhan&key=f7f45241497049abb268159da2c8cd57";
 
   /**
    * 三天预报
